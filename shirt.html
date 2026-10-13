@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLYEST — T-shirt</title>
+  <link rel="icon" type="image/jpeg" href="Flyest Logo.jpg" />
+  <link rel="stylesheet" href="liberation-font.css" />
+  <link rel="stylesheet" href="hoodie.css" />
+  <link rel="stylesheet" href="store-assistant.css" />
+  <link rel="stylesheet" href="product-preview.css" />
+  <link rel="stylesheet" href="responsive.css" />
+  <link rel="stylesheet" href="quantity.css" />
+</head>
+<body>
+  <div class="announcement">FREE SHIPPING NATIONWIDE — SHIPS VIA J&amp;T EXPRESS</div>
+  <header class="p-header">
+    <nav class="p-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html?category=hoodies">Hoodies</a>
+      <a href="shop.html?category=shirts">T-shirts</a>
+      <a href="flyest-story.html">Stories</a>
+    </nav>
+    <a class="p-logo" href="index.html">FLYEST</a>
+    <div class="p-header-tools">
+      <button class="store-search-trigger" type="button" data-store-search aria-label="Search clothing">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg>
+      </button>
+    <button class="p-cart" id="cartBtn" aria-label="Cart">
+      <img class="cart-icon" src="Cart Logo.png" alt="" />
+      <span class="cart-label">CART</span>
+      <span class="cart-count" id="cartCount" aria-live="polite">0</span>
+    </button>
+    </div>
+  </header>
+
+  <div class="p-breadcrumb"><a href="index.html">Home</a> / <a href="shop.html?category=shirts">T-shirts</a> / <span id="crumbName">Flyest T-shirt</span></div>
+  <main class="p-main">
+    <div class="p-img-wrap"><img id="pImg" src="" alt="FLYEST T-shirt" /></div>
+    <div class="p-info">
+      <span class="p-overline">FLYEST · THE T-SHIRT COLLECTION</span>
+      <h1 id="pName">FLYEST T-SHIRT</h1>
+      <p class="p-price" id="pPrice">₱750.00</p>
+      <p class="p-ship">FREE SHIPPING NATIONWIDE · J&amp;T EXPRESS</p>
+      <h3 class="p-label">CHOOSE SIZE</h3>
+      <div class="size-row" id="sizeRow">
+        <button class="size-btn" data-size="M">M</button>
+        <button class="size-btn" data-size="L">L</button>
+        <button class="size-btn" data-size="XL">XL</button>
+        <button class="size-btn" data-size="2XL">2XL</button>
+        <button class="size-btn" data-size="3XL">3XL</button>
+      </div>
+      <p class="p-hint" id="sizeHint">Select a size</p>
+      <div class="quantity-picker">
+        <span class="p-label">QUANTITY</span>
+        <div class="quantity-control" aria-label="Choose quantity">
+          <button class="quantity-button" id="quantityDecrease" type="button" aria-label="Decrease quantity">−</button>
+          <input id="quantityInput" type="number" min="1" step="1" value="1" inputmode="numeric" aria-label="Quantity" />
+          <button class="quantity-button" id="quantityIncrease" type="button" aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+      <button class="btn p-add" id="addBtn" disabled>SELECT A SIZE TO ADD</button>
+      <div class="p-details">
+        <h4>DETAILS</h4>
+        <ul>
+          <li>Flyest graphic T-shirt from the signature collection</li>
+          <li>Unisex everyday streetwear</li>
+          <li>Select a size before adding to your cart</li>
+          <li>FREE nationwide shipping via J&amp;T Express</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <section class="p-also">
+    <h2 class="p-also-title">— MORE FROM THE T-SHIRT COLLECTION —</h2>
+    <div class="also-grid" id="alsoGrid"></div>
+  </section>
+  <footer class="p-footer">
+    <div class="p-footer-links">
+      <div><strong>SHOP</strong><a href="shop.html?category=hoodies">Hoodies</a><a href="shop.html?category=shirts">T-shirts</a></div>
+      <div><strong>HELP</strong><a href="index.html#help">Shipping &amp; Returns</a><a href="mailto:flyestclothing.ph@gmail.com">Contact</a></div>
+      <div><strong>FOLLOW</strong><a href="https://instagram.com/flyest.ph" target="_blank" rel="noopener">Instagram — @flyest.ph</a></div>
+    </div>
+    <p>© 2026 FLYEST. EST. 2023. MADE WITH STYLE.</p>
+  </footer>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-head">
+      <div class="cart-head-copy">
+        <span class="cart-head-kicker">FLYEST · YOUR PICKS</span>
+        <div class="cart-head-title-row"><span class="cart-head-title">Your Cart</span><span class="cart-head-count" id="cartHeaderCount">0 ITEMS</span></div>
+      </div>
+      <button class="icon-btn cart-close-btn" id="closeCart" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">
+        <span class="cart-empty-mark" aria-hidden="true">F</span>
+        <p class="cart-empty-title">Your next favorite belongs here.</p>
+        <p class="cart-empty-note">Explore the collection and find the piece that feels like you.</p>
+        <a class="cart-empty-link" href="shop.html?category=hoodies">EXPLORE THE COLLECTION <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <div class="cart-foot">
+      <div class="cart-shipping-note"><span class="cart-shipping-check" aria-hidden="true">✓</span><span>Complimentary nationwide shipping</span><span class="cart-shipping-courier">J&amp;T</span></div>
+      <div class="cart-total-row"><span>Subtotal</span><span id="cartTotal">₱0.00</span></div>
+      <p class="cart-total-caption">Shipping is on us. Taxes are calculated at checkout.</p>
+      <a class="btn checkout-btn" href="index.html?checkout=1"><span>CONTINUE TO CHECKOUT</span><span class="checkout-arrow" aria-hidden="true">↗</span></a>
+      <a class="cart-continue-shopping" href="shop.html?category=shirts">CONTINUE EXPLORING</a>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+  <div class="toast" id="toast"></div>
+  <script src="products.js"></script>
+  <script src="script.js"></script>
+  <script src="hoodie.js"></script>
+  <script src="store-assistant.js"></script>
+</body>
+</html>

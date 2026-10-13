@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLYEST — Made With Style</title>
+  <link rel="icon" type="image/jpeg" href="Flyest Logo.jpg" />
+  <link rel="stylesheet" href="liberation-font.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="store-assistant.css" />
+  <link rel="stylesheet" href="product-preview.css" />
+  <link rel="stylesheet" href="responsive.css" />
+  <link rel="stylesheet" href="quantity.css" />
+</head>
+<body>
+
+  <div class="intro-screen" aria-hidden="true">
+    <img src="Flyest Logo.jpg" alt="" />
+    <span>FLYEST</span>
+    <small>MADE WITH STYLE</small>
+  </div>
+
+  <div class="announcement">FREE SHIPPING NATIONWIDE — SHIPS VIA J&amp;T EXPRESS</div>
+
+  <header class="header">
+    <button class="icon-btn" id="menuBtn" aria-label="Menu">☰</button>
+    <nav class="nav" id="nav">
+      <a href="#shop">Shop</a>
+      <a href="shop.html?category=hoodies">Hoodies</a>
+      <a href="shop.html?category=shirts">T-shirts</a>
+      <a href="flyest-story.html">Stories</a>
+      <a href="#color-picker">Find Your Flyest</a>
+      <a href="#about">About</a>
+    </nav>
+    <a class="logo" href="#top">FLYEST</a>
+    <div class="header-actions">
+      <a class="header-help" href="#help">Help</a>
+    <button class="icon-btn store-search-trigger" type="button" data-store-search aria-label="Search clothing">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg>
+    </button>
+    <button class="icon-btn cart-btn" id="cartBtn" aria-label="Cart">
+        <img class="cart-icon" src="Cart Logo.png" alt="" />
+        <span class="cart-label">CART</span>
+        <span class="cart-count" id="cartCount" aria-live="polite">0</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero" id="top">
+    <img class="hero-image" src="Lookbook black.png" alt="Flyest black hoodie campaign photo" />
+    <div class="hero-content">
+      <span class="eyebrow">THE FLYEST COLLECTION</span>
+      <h1 class="hero-title">MADE WITH STYLE</h1>
+      <p class="hero-sub">EVERYDAY ESSENTIALS. NOTHING EXTRA.</p>
+      <a class="hero-link" href="#shop">SHOP NOW <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+
+  <section class="editorial" id="new">
+    <div class="editorial-copy">
+      <span class="eyebrow">EST. 2023 · FLYEST</span>
+      <h2>THE HOODIE<br />COLLECTION</h2>
+      <p>Heavyweight comfort. A statement in every color. Made to move with you.</p>
+      <a href="shop.html?category=hoodies" class="text-link">EXPLORE THE HOODIES ↗</a>
+    </div>
+    <a href="hoodie.html?id=cream" class="editorial-image"><img src="Lookbook cream.png" alt="Flyest cream hoodie" /></a>
+  </section>
+
+  <section class="collection" id="shop">
+    <div class="section-heading"><div><span class="eyebrow">TWO WAYS TO WEAR FLYEST</span><h2 class="section-title">Find your fit</h2></div><span class="section-index">HOODIES / T-SHIRTS</span></div>
+    <div class="category-switcher" aria-label="Choose a collection">
+      <a class="category-choice" href="shop.html?category=hoodies">
+        <span class="eyebrow">THE EVERYDAY LAYER</span>
+        <strong>Hoodies <span aria-hidden="true">↗</span></strong>
+        <span>Explore all six colors</span>
+      </a>
+      <a class="category-choice" href="shop.html?category=shirts">
+        <span class="eyebrow">MADE TO STAND OUT</span>
+        <strong>T-shirts <span aria-hidden="true">↗</span></strong>
+        <span>Explore the full tee collection</span>
+      </a>
+    </div>
+    <div class="section-heading collection-subheading"><div><span class="eyebrow">THE HOODIE COLLECTION</span><h3 class="section-title">Your new everyday layer</h3></div><a class="collection-more" href="shop.html?category=hoodies">SHOP ALL HOODIES ↗</a></div>
+    <div class="grid" id="productGrid"></div>
+    <div class="section-heading collection-subheading shirt-feature-heading"><div><span class="eyebrow">JUST LANDED</span><h3 class="section-title">The new tee drop</h3></div><a class="collection-more" href="shop.html?category=shirts">SHOP ALL T-SHIRTS ↗</a></div>
+    <div class="grid" id="shirtFeatureGrid"></div>
+    <div class="section-heading collection-subheading promo-feature-heading"><div><span class="eyebrow">LIMITED-TIME OFFER</span><h3 class="section-title">Ber-month special</h3></div><span class="promo-section-note">33% OFF TWO SELECT TEES</span></div>
+    <div class="grid" id="shirtPromoGrid"></div>
+  </section>
+
+  <section class="color-picker" id="color-picker" aria-labelledby="pickerTitle">
+    <div class="picker-copy">
+      <span class="eyebrow">A LITTLE MORE YOU</span>
+      <h2 id="pickerTitle">FIND YOUR<br />FLYEST.</h2>
+      <p>One hoodie. Six ways to make it yours. Pick a color and see your next everyday essential.</p>
+      <div class="picker-options" id="pickerOptions" aria-label="Choose a hoodie color"></div>
+      <p class="picker-selection" id="pickerSelection" aria-live="polite"></p>
+      <a class="picker-link" id="pickerShop" href="hoodie.html?id=black">SHOP THIS COLOR ↗</a>
+    </div>
+    <div class="picker-visual"><img id="pickerImage" src="Black Hoodie.png" alt="Flyest Black Hoodie" /></div>
+  </section>
+
+  <section class="help-section" id="help">
+    <h2 class="section-title">— HELP —</h2>
+    <div class="help-grid">
+      <div class="help-card">
+        <h3>SHIPPING</h3>
+        <ul>
+          <li><strong>Rates:</strong> FREE shipping on all orders</li>
+          <li><strong>Coverage:</strong> Nationwide Philippines</li>
+          <li><strong>Courier:</strong> J&amp;T Express</li>
+          <li><strong>Metro Manila:</strong> 2–3 days</li>
+          <li><strong>Provinces:</strong> 5–7 days</li>
+        </ul>
+      </div>
+      <div class="help-card">
+        <h3>RETURNS &amp; EXCHANGE</h3>
+        <ul>
+          <li>7–14 days from delivery</li>
+          <li>Items must be unworn with tags attached</li>
+          <li>Wrong size? Yes — exchanges are allowed</li>
+        </ul>
+      </div>
+      <div class="help-card">
+        <h3>SIZE GUIDE (INCHES)</h3>
+        <table class="size-table">
+          <tr><th>SIZE</th><th>CHEST</th><th>LENGTH</th></tr>
+          <tr><td>M</td><td>22</td><td>27</td></tr>
+          <tr><td>L</td><td>23</td><td>28</td></tr>
+          <tr><td>XL</td><td>24</td><td>29</td></tr>
+          <tr><td>2XL</td><td>25</td><td>30</td></tr>
+          <tr><td>3XL</td><td>26</td><td>31</td></tr>
+        </table>
+        <p class="size-note">Oversized fit. True to size — size down for a regular fit.</p>
+      </div>
+      <div class="help-card">
+        <h3>CONTACT</h3>
+        <ul>
+          <li><a href="mailto:flyestclothing.ph@gmail.com">flyestclothing.ph@gmail.com</a></li>
+          <li><a href="https://instagram.com/flyest.ph" target="_blank" rel="noopener">Instagram — @flyest.ph</a></li>
+          <li>Phone: 0924 443 0173</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <h2 class="section-title">— ABOUT —</h2>
+    <p class="about-text">
+      FLYEST is a streetwear brand established in 2023. We create everyday essentials that are made with style, comfort, and quality in mind. Our goal is to provide versatile pieces that can be worn by anyone, anywhere, and at any time. We believe that fashion should be accessible to everyone, and that's why we strive to offer affordable and stylish clothing options for everyone.
+    </p>
+    <div class="about-meta">
+      <div><span>ESTABLISHED</span>2023</div>
+      <div><span>LOCATION</span>Brgy. Real, Calamba, Laguna</div>
+      <div><span>SLOGAN</span>"Made with style"</div>
+    </div>
+  </section>
+
+  <section class="signup" aria-label="Join the Flyest community">
+    <div><span class="eyebrow">STAY IN THE LOOP</span><h2>Join the community</h2><p>Sign up for updates and restock alerts from Flyest.</p></div>
+    <div class="notify-row"><input type="email" id="notifyEmail" placeholder="YOUR EMAIL ADDRESS" aria-label="Email address" /><button class="btn" id="notifyBtn">SIGN UP ↗</button></div>
+  </section>
+
+  <footer class="footer" id="help">
+    <div class="footer-cols">
+      <div>
+        <h3>SHOP</h3>
+        <a href="#shop">All Products</a><a href="shop.html?category=hoodies">Hoodies</a><a href="shop.html?category=shirts">T-shirts</a><a href="#color-picker">Find Your Flyest</a>
+      </div>
+      <div>
+        <h3>HELP</h3>
+        <a href="#help">Shipping</a><a href="#help">Returns</a><a href="#help">Size Guide</a><a href="mailto:flyestclothing.ph@gmail.com">Contact</a>
+      </div>
+      <div>
+        <h3>FLYEST</h3>
+        <a href="#about">About Flyest</a><a href="flyest-story.html">The Flyest Story</a><a href="#color-picker">Find Your Flyest</a>
+      </div>
+      <div>
+        <h3>FOLLOW</h3>
+        <a href="https://instagram.com/flyest.ph" target="_blank" rel="noopener">Instagram — @flyest.ph</a>
+      </div>
+      <div>
+        <h3>CONTACT</h3>
+        <a href="mailto:flyestclothing.ph@gmail.com">flyestclothing.ph@gmail.com</a>
+      </div>
+    </div>
+    <p class="copyright">© 2026 FLYEST. EST. 2023. MADE WITH STYLE. ALL RIGHTS RESERVED.</p>
+  </footer>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-head">
+      <div class="cart-head-copy">
+        <span class="cart-head-kicker">FLYEST · YOUR PICKS</span>
+        <div class="cart-head-title-row"><span class="cart-head-title">Your Cart</span><span class="cart-head-count" id="cartHeaderCount">0 ITEMS</span></div>
+      </div>
+      <button class="icon-btn cart-close-btn" id="closeCart" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">
+        <span class="cart-empty-mark" aria-hidden="true">F</span>
+        <p class="cart-empty-title">Your next favorite belongs here.</p>
+        <p class="cart-empty-note">Explore the collection and find the piece that feels like you.</p>
+        <a class="cart-empty-link" href="shop.html?category=hoodies">EXPLORE THE COLLECTION <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <div class="cart-foot">
+      <div class="cart-shipping-note"><span class="cart-shipping-check" aria-hidden="true">✓</span><span>Complimentary nationwide shipping</span><span class="cart-shipping-courier">J&amp;T</span></div>
+      <div class="cart-total-row"><span>Subtotal</span><span id="cartTotal">₱0.00</span></div>
+      <p class="cart-total-caption">Shipping is on us. Taxes are calculated at checkout.</p>
+      <button class="btn checkout-btn" id="checkoutBtn"><span>CONTINUE TO CHECKOUT</span><span class="checkout-arrow" aria-hidden="true">↗</span></button>
+      <a class="cart-continue-shopping" href="shop.html?category=hoodies">CONTINUE EXPLORING</a>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="modal" id="checkoutModal" aria-hidden="true">
+    <div class="modal-card">
+      <button class="icon-btn modal-close" id="closeCheckout" aria-label="Close">✕</button>
+
+      <div id="checkoutStep1">
+        <h3 class="modal-title">CHECKOUT</h3>
+        <form id="checkoutForm">
+          <label>EMAIL<input type="email" id="email" placeholder="you@email.com" required /></label>
+          <label>FULL NAME<input type="text" id="name" placeholder="Juan Dela Cruz" required /></label>
+          <label>PHONE NUMBER<input type="tel" id="phone" placeholder="09XXXXXXXXX" required pattern="09[0-9]{9}" maxlength="11" /></label>
+          <label>HOUSE / UNIT NO.<input type="text" id="house" placeholder="123, Unit 4" required /></label>
+          <label>STREET<input type="text" id="street" placeholder="Rizal St." required /></label>
+          <div class="row">
+            <label>BARANGAY<input type="text" id="barangay" placeholder="Barangay" required /></label>
+            <label>CITY / MUNICIPALITY<input type="text" id="city" placeholder="City" required /></label>
+          </div>
+          <div class="row">
+            <label>PROVINCE<input type="text" id="province" placeholder="Province" required /></label>
+            <label>POSTAL CODE<input type="text" id="postal" placeholder="4027" required maxlength="4" pattern="[0-9]{4}" /></label>
+          </div>
+          <label>SHIPPING NOTES (OPTIONAL)<input type="text" id="notes" placeholder="Landmark, delivery instructions..." /></label>
+          <h4 class="pay-title">PAYMENT METHOD</h4>
+          <div class="pay-options">
+            <label class="pay-option">
+              <input type="radio" name="payment" value="GCash" checked />
+              <img src="Gcash Logo.png" alt="GCash" />
+              <span>GCASH</span>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="payment" value="Atome" />
+              <img src="InstaPay Logo.png" alt="Atome" />
+              <span>ATOME</span>
+            </label>
+          </div>
+          <p class="pay-note" id="payNote">You'll scan the GCash QR to pay after placing your order.</p>
+          <button type="submit" class="btn checkout-btn">PLACE ORDER — <span id="payAmount"></span></button>
+        </form>
+
+        <div class="also-like">
+          <h4 class="pay-title">YOU MIGHT ALSO LIKE</h4>
+          <div class="also-grid" id="alsoGrid"></div>
+        </div>
+      </div>
+
+      <div id="checkoutStepPay" class="hidden">
+        <h3 class="modal-title">SCAN TO PAY</h3>
+        <p class="pay-amount-line">AMOUNT TO PAY: <strong id="qrAmount">₱0.00</strong></p>
+        <div class="qr-wrap">
+          <img id="qrImage" src="Gcash.jpg" alt="Payment QR code" />
+        </div>
+        <p class="qr-note" id="qrNote">1. Open your GCash app → Scan QR.<br />2. Send the exact amount above.<br />3. Upload your payment screenshot below.</p>
+        <label class="upload-label">PAYMENT RECEIPT / SCREENSHOT<input type="file" id="receiptFile" accept="image/*" required /></label>
+        <div id="receiptPreview" class="receipt-preview hidden"><img alt="Receipt preview" /></div>
+        <button class="btn checkout-btn" id="paidBtn">I HAVE PAID — CONFIRM ORDER</button>
+        <p class="disclaimer">Your order ships after payment is verified.</p>
+      </div>
+
+      <div id="checkoutStep2" class="hidden">
+        <div class="success-mark">✓</div>
+        <h3 class="modal-title">ORDER CONFIRMED</h3>
+        <p class="success-text">Thanks <span id="confirmName"></span>! Your order <span id="orderNo"></span> is being prepared.</p>
+        <p class="success-text">Paid via <span id="confirmPay"></span> — receipt verified. Shipping via J&amp;T Express.</p>
+        <p class="success-text">A receipt was sent to <span id="confirmEmail"></span> and to FLYEST's inbox.</p>
+        <div class="waybill" id="waybill">
+          <div class="waybill-head">
+            <span class="waybill-brand">J&amp;T EXPRESS</span>
+            <span class="waybill-type">STANDARD DELIVERY</span>
+          </div>
+          <div class="waybill-tracking">
+            <span>TRACKING NO.</span>
+            <strong id="waybillTracking"></strong>
+          </div>
+          <div class="waybill-cols">
+            <div class="waybill-col">
+              <h5>SENDER</h5>
+              <p>FLYEST CLOTHING</p>
+              <p>Behind Shell, Brgy. Real,<br />Calamba, Laguna</p>
+              <p>0924 443 0173</p>
+            </div>
+            <div class="waybill-col">
+              <h5>RECEIVER</h5>
+              <p id="wbReceiver"></p>
+              <p id="wbAddress"></p>
+              <p id="wbPhone"></p>
+            </div>
+          </div>
+          <div class="waybill-items">
+            <h5>ITEMS</h5>
+            <p id="wbItems"></p>
+            <p class="waybill-total" id="wbTotal"></p>
+          </div>
+          <div class="waybill-foot">
+            <div class="waybill-cod"><span>COD AMOUNT</span><strong id="wbCod">₱0.00</strong></div>
+            <div class="waybill-barcode" id="wbBarcode"></div>
+          </div>
+        </div>
+        <button class="btn checkout-btn" id="printWaybill">PRINT WAYBILL</button>
+        <button class="btn checkout-btn outline" id="emailReceipt">EMAIL RECEIPT</button>
+        <button class="btn checkout-btn outline" id="doneBtn">CONTINUE</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="products.js"></script>
+  <script src="script.js"></script>
+  <script src="store-assistant.js"></script>
+</body>
+</html>
