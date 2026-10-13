@@ -66,7 +66,7 @@
       .then((response) => response.ok ? response.json() : Promise.reject(new Error("Assistant server is unavailable.")))
       .then((status) => {
         chatStatus.textContent = status.configured
-          ? "AI shopping assistant · Powered by OpenAI"
+          ? "AI shopping assistant · Powered by Gemini"
           : "AI setup required · See assistant setup guide";
       })
       .catch(() => {
@@ -176,7 +176,7 @@
     const waiting = addChatMessage("Thinking through that for you…");
     try {
       if (window.location.protocol === "file:") {
-        throw new Error("The AI needs the FLYEST server. Don’t open the HTML file directly: install Node.js 18+, set OPENAI_API_KEY privately, run `npm start` in the project folder, then visit http://localhost:3000.");
+        throw new Error("The AI needs the FLYEST server. Don’t open the HTML file directly: install Node.js 18+, set GEMINI_API_KEY privately, run `npm start` in the project folder, then visit http://localhost:3000.");
       }
       const response = await fetch("/api/assistant", {
         method: "POST",
@@ -204,7 +204,7 @@
     } catch (error) {
       waiting.remove();
       const message = error instanceof TypeError
-        ? "I can’t reach the AI server. Start the FLYEST site with `npm start`, then open http://localhost:3000. The server also needs a private OPENAI_API_KEY."
+        ? "I can’t reach the AI server. Start the FLYEST site with `npm start`, then open http://localhost:3000. The server also needs a private GEMINI_API_KEY."
         : error.message || "I couldn’t connect just now. Please try again shortly.";
       addChatMessage(message);
     } finally {

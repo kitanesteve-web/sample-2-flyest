@@ -5,7 +5,7 @@ const products = require("./products.js");
 
 const root = __dirname;
 const port = Number(process.env.PORT) || 3000;
-const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 const maxBodyBytes = 64_000;
 const rateLimitWindowMs = 60_000;
 const maxRequestsPerWindow = 20;
@@ -87,8 +87,8 @@ Return only a JSON object with exactly these properties: "message" (a polished, 
 };
 
 const handleAssistant = async (request, response) => {
-  if (!process.env.OPENAI_API_KEY) {
-    sendJson(response, 503, { error: "The AI assistant is not configured yet. Set OPENAI_API_KEY on the server and restart it." });
+  if (!process.env.GEMINI_API_KEY) {
+    sendJson(response, 503, { error: "The AI assistant is not configured yet. Set GEMINI_API_KEY on the server and restart it." });
     return;
   }
 
@@ -116,23 +116,28 @@ const handleAssistant = async (request, response) => {
   }
 
   try {
-    const upstream = await fetch("https://api.openai.com/v1/chat/completions", {
+    const upstream = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        "x-goog-api-key": process.env.GEMINI_API_KEY,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model,
-        messages: [{ role: "system", content: assistantPrompt() }, ...messages],
-        response_format: { type: "json_object" },
-        max_tokens: 500,
-        temperature: 0.6,
+        systemInstruction: { parts: [{ text: assistantPrompt() }] },
+        contents: messages.map((message) => ({
+          role: message.role === "assistant" ? "model" : "user",
+          parts: [{ text: message.content }],
+        })),
+        generationConfig: {
+          responseMimeType: "application/json",
+          maxOutputTokens: 500,
+          temperature: 0.6,
+        },
       }),
       signal: AbortSignal.timeout(30_000),
     });
     if (!upstream.ok) {
-      console.error(`OpenAI API request failed with status ${upstream.status}.`);
+      console.error(`Gemini API request failed with status ${upstream.status}.`);
       sendJson(response, upstream.status === 429 ? 503 : 502, {
         error: upstream.status === 429
           ? "The assistant is busy right now. Please try again in a moment."
@@ -142,12 +147,12 @@ const handleAssistant = async (request, response) => {
     }
 
     const result = await upstream.json();
-    const content = result.choices?.[0]?.message?.content;
+    const content = result.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("");
     let answer;
     try {
       answer = JSON.parse(content);
     } catch {
-      console.error("OpenAI returned an invalid assistant response.");
+      console.error("Gemini returned an invalid assistant response.");
       sendJson(response, 502, { error: "The assistant returned an unreadable response. Please try again." });
       return;
     }
@@ -160,7 +165,7 @@ const handleAssistant = async (request, response) => {
     const productIds = [...new Set(answer.productIds.filter((id) => typeof id === "string" && availableIds.has(id)))].slice(0, 3);
     sendJson(response, 200, { message: answer.message.slice(0, 2_000), productIds });
   } catch (error) {
-    console.error("Unable to reach the OpenAI API.", error.name);
+    console.error("Unable to reach the Gemini API.", error.name);
     sendJson(response, 502, { error: "The assistant is temporarily unavailable. Please try again shortly." });
   }
 };
@@ -198,7 +203,7 @@ const serveStatic = (request, response, pathname) => {
 const server = http.createServer((request, response) => {
   const url = new URL(request.url, "http://localhost");
   if (url.pathname === "/api/status" && request.method === "GET") {
-    sendJson(response, 200, { configured: Boolean(process.env.OPENAI_API_KEY) });
+    sendJson(response, 200, { configured: Boolean(process.env.GEMINI_API_KEY) });
     return;
   }
   if (url.pathname === "/api/assistant") {
@@ -219,5 +224,5 @@ const server = http.createServer((request, response) => {
 
 server.listen(port, () => {
   console.log(`FLYEST store running at http://localhost:${port}`);
-  if (!process.env.OPENAI_API_KEY) console.warn("Set OPENAI_API_KEY in the server environment to enable AI chat.");
+  if (!process.env.GEMINI_API_KEY) console.warn("Set GEMINI_API_KEY in the server environment to enable AI chat.");
 });
