@@ -19,13 +19,13 @@
       </section>
     </div>
     <aside class="store-assistant">
-      <section class="store-chat-panel" data-chat-panel role="dialog" aria-label="FLYEST style assistant" hidden>
+      <section class="store-chat-panel" data-chat-panel role="dialog" aria-label="FLYEST store helper" hidden>
         <header class="store-chat-heading">
-          <div><span class="store-chat-brand">FLYEST STYLE ASSISTANT</span><span class="store-chat-status" data-chat-status>Checking AI connection…</span></div>
+          <div><span class="store-chat-brand">FLYEST STORE HELPER</span><span class="store-chat-status" data-chat-status>Automatic replies · Always available</span></div>
           <button class="store-dialog-close" type="button" data-chat-close aria-label="Close assistant">×</button>
         </header>
         <div class="store-chat-messages" data-chat-messages aria-live="polite" aria-relevant="additions text">
-          <div class="store-chat-message"><p>Hello. I’m the FLYEST shopping assistant. I can help you compare pieces, find a style within your budget, and answer questions about fit, shipping, and exchanges. How may I help?</p></div>
+          <div class="store-chat-message"><p>Hello. I’m FLYEST’s automatic store helper. Ask me about products, prices, sizes, shipping, exchanges, or payment methods.</p></div>
         </div>
         <div class="store-chat-chips">
           <button class="store-chat-chip" type="button">Show me hoodies</button>
@@ -33,13 +33,13 @@
           <button class="store-chat-chip" type="button">Shipping info</button>
         </div>
         <form class="store-chat-form" data-chat-form>
-          <input class="store-chat-input" data-chat-input type="text" maxlength="1200" placeholder="Ask about FLYEST..." aria-label="Message the style assistant" autocomplete="off" />
+          <input class="store-chat-input" data-chat-input type="text" maxlength="1200" placeholder="Ask about FLYEST..." aria-label="Message the store helper" autocomplete="off" />
           <button class="store-chat-send" type="submit" aria-label="Send message">➤</button>
         </form>
-        <p class="store-chat-disclosure">AI responses may be imperfect. Please don’t share payment or personal information.</p>
+        <p class="store-chat-disclosure">Automatic replies cover common store questions. Please don’t share payment or personal information.</p>
       </section>
-      <button class="store-chat-toggle" type="button" data-chat-toggle aria-expanded="false" aria-label="Open FLYEST style assistant">
-        <span aria-hidden="true">✦</span><span>STYLE ASSISTANT</span>
+      <button class="store-chat-toggle" type="button" data-chat-toggle aria-expanded="false" aria-label="Open FLYEST store helper">
+        <span aria-hidden="true">✦</span><span>STORE HELPER</span>
       </button>
     </aside>`;
   document.body.insertAdjacentHTML("beforeend", searchMarkup);
@@ -53,26 +53,93 @@
   const chatInput = document.querySelector("[data-chat-input]");
   const chatForm = chatPanel.querySelector("[data-chat-form]");
   const chatSend = chatForm.querySelector(".store-chat-send");
-  const chatStatus = chatPanel.querySelector("[data-chat-status]");
-  const conversation = [];
   const normalize = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, "");
   const productUrl = (product) => `${product.category === "hoodies" ? "hoodie" : "shirt"}.html?id=${encodeURIComponent(product.id)}`;
   const priceFor = (product) => product.salePrice ?? product.price;
 
-  if (window.location.protocol === "file:") {
-    chatStatus.textContent = "Open through the FLYEST server to use AI";
-  } else {
-    fetch("/api/status")
-      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Assistant server is unavailable.")))
-      .then((status) => {
-        chatStatus.textContent = status.configured
-          ? "AI shopping assistant · Powered by Gemini"
-          : "AI setup required · See assistant setup guide";
-      })
-      .catch(() => {
-        chatStatus.textContent = "AI server offline · run npm start";
-      });
-  }
+  const storeEmail = "flyestclothing.ph@gmail.com";
+  const availableProducts = products.filter((product) => !product.isSoldOut);
+  const stopWords = new Set(["a", "an", "and", "find", "for", "i", "me", "my", "of", "please", "show", "the", "to", "want", "with"]);
+  const wordsIn = (value) => value.toLowerCase().match(/[a-z0-9]+/g) || [];
+  const categoryFor = (query) => {
+    if (/\b(hoodie|hoodies|sweatshirt|sweatshirts)\b/i.test(query)) return "hoodies";
+    if (/\b(tee|tees|t-shirt|t-shirts|tshirt|tshirts|shirt|shirts)\b/i.test(query)) return "shirts";
+    return null;
+  };
+
+  const getStoreReply = (query) => {
+    const text = query.toLowerCase();
+    const category = categoryFor(query);
+    const budgetMatch = text.match(/(?:under|below|less than|max(?:imum)?|budget(?: of)?|₱|php\s*)([\d,]+)/i);
+    const budget = budgetMatch ? Number(budgetMatch[1].replace(/,/g, "")) : null;
+
+    if (/\b(hello|hi|hey|good morning|good afternoon|good evening)\b/i.test(text)) {
+      return { message: "Hi! I can help you find a hoodie or tee, check prices and sizes, or answer questions about delivery and exchanges. What are you looking for?", matches: [] };
+    }
+    if (/\b(thanks|thank you|thx)\b/i.test(text)) {
+      return { message: `You’re welcome! If you need anything else, email us at ${storeEmail}.`, matches: [] };
+    }
+    if (/\b(ship|shipping|delivery|deliver|courier|j&t|j and t)\b/i.test(text)) {
+      return { message: "Shipping is free nationwide in the Philippines via J&T Express. Typical delivery is 2–3 days in Metro Manila and 5–7 days to the provinces.", matches: [] };
+    }
+    if (/\b(exchange|exchanges|return|returns|refund|refunds)\b/i.test(text)) {
+      return { message: `Exchanges are accepted within 7–14 days after delivery for unworn items with tags attached, including wrong-size exchanges. Please contact ${storeEmail} for help with an order. Contact us about refund requests; I can’t confirm a refund policy here.`, matches: [] };
+    }
+    if (/\b(size|sizing|fit|chest|length)\b/i.test(text)) {
+      return { message: "Hoodies have an oversized fit: choose your usual size for a relaxed fit or size down for a regular fit. Our size guide (chest × length, inches) is M 22 × 27, L 23 × 28, XL 24 × 29, 2XL 25 × 30, and 3XL 26 × 31. T-shirts are available in M–3XL; contact us if you need a tee measurement.", matches: [] };
+    }
+    if (/\b(pay|payment|payments|gcash|instapay|atome|qr)\b/i.test(text)) {
+      return { message: "Checkout offers GCash and InstaPay QR payment. Select your method at checkout to see its QR instructions. Never share your PIN, password, or payment details in this chat.", matches: [] };
+    }
+    if (/\b(track|tracking|order|orders|where is my)\b/i.test(text)) {
+      return { message: `I can’t look up orders or tracking details. Please contact ${storeEmail} or call 0924 443 0173 for help.`, matches: [] };
+    }
+    if (/\b(contact|email|phone|human|person|support|help)\b/i.test(text) && !category) {
+      return { message: `You can reach the FLYEST team at ${storeEmail} or call 0924 443 0173.`, matches: [] };
+    }
+    if (/\b(promo|promos|sale|discount|discounts|new|newest|latest)\b/i.test(text)) {
+      const promotions = availableProducts.filter((product) => product.salePrice || product.isNewRelease);
+      if (promotions.length) {
+        return { message: "Here are the current sale and new-release tees. Sale styles are ₱500; other tees are ₱750.", matches: promotions };
+      }
+    }
+
+    const requestedWords = wordsIn(query).filter((word) => !stopWords.has(word) && !/^\d+$/.test(word) && !["available", "below", "budget", "color", "colors", "cost", "do", "have", "hoodie", "hoodies", "in", "less", "max", "maximum", "much", "of", "price", "prices", "product", "products", "shirt", "shirts", "stock", "sweatshirt", "sweatshirts", "t", "tee", "tees", "than", "tshirt", "tshirts", "under", "what", "which"].includes(word));
+    let matches = availableProducts.filter((product) => {
+      if (category && product.category !== category) return false;
+      if (budget !== null && priceFor(product) > budget) return false;
+      if (!requestedWords.length) return Boolean(category || budget !== null);
+      const searchable = wordsIn(`${product.name} ${product.id} ${product.category}`);
+      return requestedWords.some((word) => searchable.includes(word));
+    });
+
+    if (matches.length) {
+      matches = matches.sort((a, b) => Number(Boolean(b.isNewRelease)) - Number(Boolean(a.isNewRelease)) || priceFor(a) - priceFor(b)).slice(0, 3);
+      const names = matches.map((product) => product.name.replace(/^Flyest /, "")).join(", ");
+      const lead = budget !== null
+        ? `Here ${matches.length === 1 ? "is a piece" : "are pieces"} under ₱${budget.toLocaleString("en-PH")}: ${names}.`
+        : `Here ${matches.length === 1 ? "is a match" : "are a few matches"}: ${names}.`;
+      return { message: `${lead} Hoodies are ₱1,700. Tees are ₱750, with select sale tees at ₱500.`, matches };
+    }
+
+    if (category) {
+      if (budget !== null) {
+        return { message: `I couldn’t find an available ${category === "hoodies" ? "hoodie" : "tee"} under ₱${budget.toLocaleString("en-PH")}. Hoodies are ₱1,700; tees are ₱750, with select sale styles at ₱500.`, matches: [] };
+      }
+      matches = availableProducts.filter((product) => product.category === category).sort((a, b) => Number(Boolean(b.isNewRelease)) - Number(Boolean(a.isNewRelease)) || priceFor(a) - priceFor(b)).slice(0, 3);
+      return { message: category === "hoodies"
+        ? "Our hoodies come in six colors and cost ₱1,700 each. Here are a few."
+        : "Our graphic tees are available in several designs, from ₱500 on select sale styles (regular price ₱750). Here are a few.",
+      matches };
+    }
+    if (budget !== null) {
+      matches = availableProducts.filter((product) => priceFor(product) <= budget).sort((a, b) => priceFor(a) - priceFor(b)).slice(0, 3);
+      return matches.length
+        ? { message: `Here are available pieces at or under ₱${budget.toLocaleString("en-PH")}.`, matches }
+        : { message: `I couldn’t find an available item under ₱${budget.toLocaleString("en-PH")}. Tees are ₱750, with select sale styles at ₱500; hoodies are ₱1,700.`, matches: [] };
+    }
+    return { message: "I’m an automatic store helper, so I can answer common questions about FLYEST products, prices, sizes, shipping, exchanges, and payment methods. Try “show me hoodies,” “find a tee,” or “what’s your shipping policy?”", matches: [] };
+  };
 
   const closeSearch = () => {
     backdrop.hidden = true;
@@ -166,52 +233,19 @@
     chatMessages.scrollTop = chatMessages.scrollHeight;
   };
 
-  const sendChat = async (rawText) => {
+  const sendChat = (rawText) => {
     const query = rawText.trim();
     if (!query || chatSend.disabled) return;
     addChatMessage(query, "store-chat-message-user");
     chatInput.value = "";
     chatSend.disabled = true;
     chatInput.disabled = true;
-    const waiting = addChatMessage("Thinking through that for you…");
-    try {
-      if (window.location.protocol === "file:") {
-        throw new Error("The AI needs the FLYEST server. Don’t open the HTML file directly: install Node.js 18+, set GEMINI_API_KEY privately, run `npm start` in the project folder, then visit http://localhost:3000.");
-      }
-      const response = await fetch("/api/assistant", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...conversation, { role: "user", content: query }] }),
-      });
-      let result;
-      try {
-        result = await response.json();
-      } catch {
-        throw new Error("The AI assistant service is unavailable. Please start the FLYEST server and try again.");
-      }
-      if (!response.ok) throw new Error(result.error || `Assistant request failed (${response.status}).`);
-      if (typeof result.message !== "string" || !Array.isArray(result.productIds)) {
-        throw new Error("The assistant returned an invalid response.");
-      }
-      waiting.remove();
-      const answer = addChatMessage(result.message);
-      const recommended = result.productIds
-        .map((id) => products.find((product) => product.id === id))
-        .filter((product) => product && !product.isSoldOut);
-      appendProductLinks(answer, recommended);
-      conversation.push({ role: "user", content: query }, { role: "assistant", content: result.message });
-      if (conversation.length > 10) conversation.splice(0, conversation.length - 10);
-    } catch (error) {
-      waiting.remove();
-      const message = error instanceof TypeError
-        ? "I can’t reach the AI server. Start the FLYEST site with `npm start`, then open http://localhost:3000. The server also needs a private GEMINI_API_KEY."
-        : error.message || "I couldn’t connect just now. Please try again shortly.";
-      addChatMessage(message);
-    } finally {
-      chatSend.disabled = false;
-      chatInput.disabled = false;
-      chatInput.focus();
-    }
+    const result = getStoreReply(query);
+    const answer = addChatMessage(result.message);
+    appendProductLinks(answer, result.matches);
+    chatSend.disabled = false;
+    chatInput.disabled = false;
+    chatInput.focus();
   };
 
   trigger.addEventListener("click", () => {
@@ -243,10 +277,10 @@
   chatPanel.querySelector("[data-chat-close]").addEventListener("click", closeChat);
   chatForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    void sendChat(chatInput.value);
+    sendChat(chatInput.value);
   });
   chatPanel.querySelectorAll(".store-chat-chip").forEach((chip) => {
-    chip.addEventListener("click", () => void sendChat(chip.textContent));
+    chip.addEventListener("click", () => sendChat(chip.textContent));
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
