@@ -70,7 +70,7 @@
   const getStoreReply = (query) => {
     const text = query.toLowerCase();
     const category = categoryFor(query);
-    const budgetMatch = text.match(/(?:under|below|less than|max(?:imum)?|budget(?: of)?|₱|php\s*)([\d,]+)/i);
+    const budgetMatch = text.match(/(?:under|below|less than|max(?:imum)?|budget(?: of)?|₱|php)\s*(?:₱|php)?\s*([\d,]+)/i);
     const budget = budgetMatch ? Number(budgetMatch[1].replace(/,/g, "")) : null;
 
     if (/\b(hello|hi|hey|good morning|good afternoon|good evening)\b/i.test(text)) {
